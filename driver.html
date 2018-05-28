@@ -2,15 +2,38 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Client</title>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
+	<title>Driver</title>
+	<!-- Latest compiled and minified CSS & JS -->
+	<link rel="stylesheet" href="css/bootstrap.min.css" >
 </head>
 <body>
-	<script>
-	  const socket = io('http://localhost:3000/drivers');
-	  socket.on('trips', (data) => {
-	  	console.log(data);
-	  });
-	</script>
+	<div class="container" style="margin-top: 10px">
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Your picking trip</h3>
+					</div>
+					<div class="panel-body">
+						<ul class="list-group list-picking-trip"></ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">List requesting trip</h3>
+					</div>
+					<div class="panel-body">
+						<ul class="list-group list-trip"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/jquery-3.3.1.slim.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/socket.io.dev.js"></script>
+	<script src="js/driver.js"></script>
 </body>
 </html>
