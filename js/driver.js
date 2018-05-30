@@ -1,7 +1,20 @@
-const driverSocket = io('http://localhost:3001', { query: 'type=driver' });
+const driverSocket = io('http://localhost:3000/drivers');
+
+driverSocket.on( 'connect', (socket) => {
+	console.log(socket);
+	$('.loader').hide();
+	$('.driver-main').show();
+});
+
+driverSocket.on( 'disconnect', () => {
+	$('.driver-main').hide();
+	$('.loader').show();
+});
 
 driverSocket.on('pendingTrip', data => {
 	if (data) {
+		const tripContainer = $('.list-trip');
+		tripContainer.html = '';
 		for (const item in data) {
 			onReceiveTrip (data[item]);
 		}
@@ -15,10 +28,10 @@ driverSocket.on('receiveTrip', trip => {
 });
 
 driverSocket.on('cancelTrip', id => {
-	onCancelTrip(id);
+	removeTrip(id);
 });
 
-function onCancelTrip (id) {
+function removeTrip (id) {
 	$(`#${id}`).remove();
 }
 
@@ -35,27 +48,22 @@ function onReceiveTrip (item) {
 
 function pickTrip (id) {
 	driverSocket.emit('pickTrip', id, handlePickTrip);
-	onCancelTrip(id);
-	addPickTrip(id);
+	removeTrip(id);
+}
+
+function cancelTrip (id) {
+	driverSocket.emit('cancelTrip', id, handleCancelTrip);
 }
 
 function addPickTrip (item) {
 	const pickingTripContainer = $('.list-picking-trip');
 	pickingTripContainer.append(`
-		<li class="list-group-item" id="picking-${item.id}">
+		<li class="list-group-item" id="${item.id}">
 			<b>${item.id}</b> - From <b>${item.from}</b> - To <b>${item.to}</b>
-			<button type="button" class="btn btn-info" style="float: right" id="btn-pick" onClick="pickTrip(\'${item.id}\')">Cancel</button>
+			<button type="button" class="btn btn-info" style="float: right" id="btn-pick" onClick="cancelTrip(\'${item.id}\')">Cancel</button>
 			<div class="clearfix"></div>
 		</li>
 	`);
-}
-
-function handleEmit (error, data) {
-	if (error) {
-		alert (error);
-	} else {
-		alert ('Succeed');
-	}
 }
 
 function handlePickTrip (error, data) {
@@ -63,5 +71,11 @@ function handlePickTrip (error, data) {
 		alert (error);
 	} else {
 		addPickTrip(data);
+	}
+}
+
+function handleCancelTrip (error, id) {
+	if (!error) {
+		removeTrip(id);
 	}
 }

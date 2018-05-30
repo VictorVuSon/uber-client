@@ -5,10 +5,12 @@
 	<title>Rider</title>
 	<!-- Latest compiled and minified CSS & JS -->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div class="container" style="margin-top: 10px">
-		<div class="row">
+		<div class="loader" style="margin: auto"></div>
+		<div class="row rider-main" style="display: none">
 			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="panel panel-primary" id="request-trip">
 					<div class="panel-heading">
@@ -31,22 +33,16 @@
 				</div>
 				<div class="panel panel-primary" id="requesting-trip">
 					<div class="panel-heading">
-						<h3 class="panel-title">Your requesting trip</h3>
+						<h3 class="panel-title"></h3>
 					</div>
 					<div class="panel-body">
-						<ul class="list-group">
-							<li class="list-group-item" id="requesting-from-location"></li>
-							<li class="list-group-item" id="requesting-to-location"></li>
-						</ul>
+						<div class="row">
+							<img src="images/loading.gif">
+						</div>
+						<div class="row">
+							<button type="button" class="btn btn-primary btn-cancel-trip">Cancel</button>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h3 class="panel-title">Your driver</h3>
-					</div>
-					
 				</div>
 			</div>
 		</div>
