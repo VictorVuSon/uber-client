@@ -1,7 +1,6 @@
 const driverSocket = io('http://localhost:3000/drivers');
 
-driverSocket.on( 'connect', (socket) => {
-	console.log(socket);
+driverSocket.on( 'connect', () => {
 	$('.loader').hide();
 	$('.driver-main').show();
 });
@@ -12,6 +11,7 @@ driverSocket.on( 'disconnect', () => {
 });
 
 driverSocket.on('pendingTrip', data => {
+    convertData(data);
 	if (data) {
 		const tripContainer = $('.list-trip');
 		tripContainer.html = '';
@@ -22,6 +22,7 @@ driverSocket.on('pendingTrip', data => {
 });
 
 driverSocket.on('receiveTrip', trip => {
+	trip = JSON.parse(trip);
 	if (trip) {
 		onReceiveTrip(trip);
 	}
@@ -70,6 +71,7 @@ function handlePickTrip (error, data) {
 	if (error) {
 		alert (error);
 	} else {
+		data = JSON.parse(data);
 		addPickTrip(data);
 	}
 }
@@ -78,4 +80,10 @@ function handleCancelTrip (error, id) {
 	if (!error) {
 		removeTrip(id);
 	}
+}
+
+function convertData (data) {
+    for (const key in data) {
+        data[key] = JSON.parse(data[key]);
+    }
 }

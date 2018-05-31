@@ -11,11 +11,13 @@ riderSocket.on('disconnect', () => {
 });
 
 riderSocket.on('cancelTrip', (data) => {
+	data = JSON.parse(data);
     $('#requesting-trip h3').html(`<b>${data.driverId}</b> cancel the trip`);
     $('#requesting-trip img').attr("src","images/failed.png");
 });
 
 riderSocket.on('havePicked', (data) => {
+    data = JSON.parse(data);
     $('#requesting-trip h3').html(`<b>${data.driverId}</b> is coming you`);
     $('#requesting-trip img').attr("src","images/success.png");
 });
